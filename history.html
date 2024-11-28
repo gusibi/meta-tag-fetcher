@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Meta Tag Fetcher - History</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="styles/tailwind.css" rel="stylesheet">
+  <link href="styles/main.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      min-width: 800px;
+      min-height: 600px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .history-container {
+      max-width: 100%;
+      padding: 20px;
+    }
+
+    .date-group {
+      margin-bottom: 2rem;
+    }
+
+    .history-item {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s;
+    }
+
+    .history-item:hover {
+      background-color: #f3f4f6;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background-color: #2563eb;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #1d4ed8;
+    }
+
+    .btn-secondary {
+      background-color: #e5e7eb;
+      color: #374151;
+    }
+
+    .btn-secondary:hover {
+      background-color: #d1d5db;
+    }
+
+    .btn-icon {
+      padding: 0.5rem;
+      border-radius: 0.375rem;
+      color: #6b7280;
+      transition: all 0.2s;
+    }
+
+    .btn-icon:hover {
+      background-color: #f3f4f6;
+      color: #374151;
+    }
+
+    .export-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .export-modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      max-width: 500px;
+      width: 90%;
+    }
+
+    /* History item styles */
+    .site-name {
+      color: #4B5563;
+      font-weight: 500;
+    }
+
+    .title {
+      color: #111827;
+      font-weight: 500;
+    }
+
+    .url {
+      color: #6B7280;
+    }
+
+    .time {
+      color: #9CA3AF;
+      font-size: 0.875rem;
+    }
+
+    .separator {
+      color: #E5E7EB;
+      margin: 0 0.5rem;
+    }
+
+    .truncate {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Hover styles */
+    .history-item:hover .site-name {
+      color: #374151;
+    }
+
+    .history-item:hover .title {
+      color: #000000;
+    }
+
+    .history-item:hover .url {
+      color: #4B5563;
+    }
+
+    /* JSON preview styles */
+    .json-preview {
+      margin-top: 1rem;
+      border-top: 1px solid #E5E7EB;
+      padding-top: 1rem;
+    }
+
+    .json-preview pre {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.375rem;
+      background-color: #1f2937;
+      color: white;
+      font-size: 0.875rem;
+      z-index: 50;
+      opacity: 0;
+      transform: translateY(1rem);
+      transition: all 0.2s;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast.error {
+      background-color: #dc2626;
+    }
+
+    /* Checkbox styles */
+    .checkbox-wrapper {
+      min-width: 24px;
+    }
+    
+    .history-select {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 2px solid #d1d5db;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .history-select:checked {
+      background-color: #2563eb;
+      border-color: #2563eb;
+    }
+    
+    .history-select:hover {
+      border-color: #2563eb;
+    }
+    
+    /* Delete button hover effect */
+    .delete-item:hover {
+      background-color: #fee2e2;
+    }
+    
+    /* Delete selected button hover effect */
+    #deleteSelectedBtn:hover {
+      background-color: #fee2e2;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <div class="history-container">
+    <header class="mb-6">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-4">
+          <h1 class="text-2xl font-semibold text-gray-900">History</h1>
+          <div class="flex items-center space-x-2 ml-4">
+            <input type="checkbox" id="selectAll" class="history-select">
+            <label for="selectAll" class="text-sm text-gray-600 select-none cursor-pointer">Select All</label>
+          </div>
+        </div>
+        <div class="flex space-x-3">
+          <button id="exportSelectedBtn" class="btn btn-primary">
+            <i class="fas fa-file-export mr-2"></i>
+            Export Selected
+          </button>
+          <button id="deleteSelectedBtn" class="btn btn-secondary text-red-600 hover:bg-red-50">
+            <i class="fas fa-trash mr-2"></i>
+            Delete Selected
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="historyContent" class="space-y-6">
+      <!-- History items will be dynamically inserted here -->
+    </main>
+  </div>
+
+  <!-- Export Modal -->
+  <div id="exportModal" class="export-modal">
+    <div class="modal-content">
+      <h2 class="text-xl font-semibold mb-4">Export History</h2>
+      <div class="space-y-4">
+        <div class="flex items-center">
+          <input type="checkbox" id="selectAll" class="mr-2">
+          <label for="selectAll">Select All</label>
+        </div>
+        <div id="dateSelections" class="space-y-2 max-h-60 overflow-y-auto">
+          <!-- Date checkboxes will be dynamically inserted here -->
+        </div>
+        <div class="flex justify-end space-x-3 mt-6">
+          <button id="cancelExport" class="btn btn-secondary">Cancel</button>
+          <button id="confirmExport" class="btn btn-primary">Export</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="history.js"></script>
+</body>
+</html>

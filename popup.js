@@ -334,6 +334,45 @@ async function toggleView(showJson = false) {
   }
 }
 
+// Function to save history
+async function saveToHistory(pageInfo) {
+  try {
+    const { history = [] } = await chrome.storage.local.get('history');
+    const historyItem = {
+      timestamp: new Date().toISOString(),
+      url: pageInfo.url,
+      metaTags: pageInfo.metaTags
+    };
+    
+    // Check if this URL was the last one visited
+    if (history.length > 0) {
+      const lastItem = history[0];
+      // Compare URLs and meta tags
+      if (lastItem.url === historyItem.url) {
+        // Deep compare meta tags
+        const lastMetaTags = JSON.stringify(lastItem.metaTags);
+        const currentMetaTags = JSON.stringify(historyItem.metaTags);
+        if (lastMetaTags === currentMetaTags) {
+          // Skip saving if it's the same
+          return;
+        }
+      }
+    }
+    
+    // Add to beginning of array
+    history.unshift(historyItem);
+    
+    // Keep only last 1000 items
+    if (history.length > 1000) {
+      history.pop();
+    }
+    
+    await chrome.storage.local.set({ history });
+  } catch (error) {
+    console.error('Error saving to history:', error);
+  }
+}
+
 // Function to show toast notification
 function showToast(message, isError = false) {
   const toast = document.getElementById('toast');
@@ -401,6 +440,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const toggleViewBtn = document.getElementById('toggleViewBtn');
   const backBtn = document.getElementById('backBtn');
   const settingsBtn = document.getElementById('settingsBtn');
+  const historyBtn = document.getElementById('historyBtn');
   const copyJsonBtn = document.getElementById('copyJsonBtn');
   const metaContainer = document.getElementById('metaContainer');
   const jsonView = document.getElementById('jsonView');
@@ -408,6 +448,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     // Get meta tags from current tab
     const pageInfo = await getMetaTags();
+    
+    // Save to history
+    await saveToHistory(pageInfo);
+    
     const categorizedData = categorizeMetaTags(pageInfo);
 
     // Populate meta sections
@@ -422,6 +466,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     backBtn.addEventListener('click', () => toggleView(false));
     settingsBtn.addEventListener('click', () => {
       chrome.runtime.openOptionsPage();
+    });
+    historyBtn.addEventListener('click', () => {
+      chrome.tabs.create({ url: 'history.html' });
     });
     
     // Copy JSON button handler
