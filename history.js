@@ -65,7 +65,7 @@ function applyKeyMapping(data, mapping) {
 // Function to create history item element
 async function createHistoryItem(item) {
   const div = document.createElement('div');
-  div.className = 'history-item card p-4 mb-3';
+  div.className = 'history-item';
   div.dataset.timestamp = item.timestamp;
   
   const time = new Date(item.timestamp).toLocaleTimeString();
@@ -81,42 +81,31 @@ async function createHistoryItem(item) {
   mappedData._url = item.url;
   
   div.innerHTML = `
-    <div class="flex flex-col space-y-4">
-      <div class="flex items-center space-x-4">
-        <div class="checkbox-wrapper">
-          <input type="checkbox" class="history-select" data-timestamp="${item.timestamp}">
-        </div>
-        <div class="site-name min-w-[120px] max-w-[150px] truncate font-medium text-gray-700">
-          ${siteName}
-        </div>
-        <div class="separator text-gray-300">/</div>
-        <div class="title min-w-[200px] max-w-[300px] truncate font-medium text-gray-900">
-          ${title}
-        </div>
-        <div class="separator text-gray-300">/</div>
-        <div class="url flex-1 min-w-[200px] max-w-[400px] truncate text-gray-500">
-          ${item.url}
-        </div>
-        <div class="separator text-gray-300">/</div>
-        <div class="time min-w-[80px] text-gray-400">
-          ${time}
-        </div>
-        <div class="actions flex space-x-2 ml-4">
-          <button class="btn-icon view-json" title="View JSON">
-            <i class="fas fa-code"></i>
-          </button>
-          <button class="btn-icon delete-item" title="Delete" data-timestamp="${item.timestamp}">
-            <i class="fas fa-trash text-red-500"></i>
-          </button>
-        </div>
+    <div class="history-item-header">
+      <label class="pure-checkbox">
+        <input type="checkbox" class="history-select" data-timestamp="${item.timestamp}">
+        <span class="checkmark"></span>
+      </label>
+      <div class="site-name" title="${siteName}">${siteName}</div>
+      <div class="title" title="${title}">${title}</div>
+      <div class="url" title="${item.url}">${item.url}</div>
+      <div class="time">${time}</div>
+      <div class="actions">
+        <button class="pure-button view-json" title="View JSON">
+          <i class="fas fa-code"></i>
+        </button>
+        <button class="pure-button pure-button-error delete-item" title="Delete" data-timestamp="${item.timestamp}">
+          <i class="fas fa-trash"></i>
+        </button>
       </div>
-      <div class="json-preview hidden">
-        <pre class="bg-gray-50 p-4 rounded-lg text-sm overflow-x-auto">${JSON.stringify(mappedData, null, 2)}</pre>
-        <div class="flex justify-end mt-2">
-          <button class="btn btn-secondary copy-json">
-            <i class="fas fa-copy mr-2"></i>Copy JSON
-          </button>
-        </div>
+    </div>
+    <div class="json-preview hidden">
+      <pre>${JSON.stringify(mappedData, null, 2)}</pre>
+      <div style="text-align: right; margin-top: 10px;">
+        <button class="pure-button pure-button-primary copy-json">
+          <i class="fas fa-copy"></i>
+          Copy JSON
+        </button>
       </div>
     </div>
   `;
