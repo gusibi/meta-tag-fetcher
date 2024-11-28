@@ -60,16 +60,14 @@ You have the right to:
 ## Changes to This Policy
 
 We may update this Privacy Policy from time to time. We will notify you of any changes by:
-- Posting the new Privacy Policy on our GitHub repository
 - Including the changes in the extension's update notes
 - Updating the "Last updated" date at the top of this policy
 
 ## Contact Us
 
 If you have any questions about this Privacy Policy, please:
-- Create an issue on our GitHub repository: https://github.com/zongxiaocheng/meta-tag-fetcher/issues
 - Contact us at: hi@onlinestool.com
-- Visit our documentation: https://github.com/zongxiaocheng/meta-tag-fetcher/wiki
+- Visit our documentation: https://onlinestool.com/wiki/meta-tag-fetcher
 
 ## Compliance
 

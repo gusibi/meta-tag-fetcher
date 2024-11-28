@@ -154,14 +154,41 @@ function createMetaTable(category, data) {
     valueCell.className = 'text-sm text-gray-500 value-cell';
     
     if (value.startsWith('data:image') || /\.(jpg|jpeg|png|gif|ico)$/i.test(value)) {
-      // Create image preview
+      // Create image preview container with loading placeholder
       const imgContainer = document.createElement('div');
       imgContainer.className = 'image-preview-container';
       
+      // Add loading placeholder
+      const placeholder = document.createElement('div');
+      placeholder.className = 'loading-placeholder';
+      placeholder.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+      imgContainer.appendChild(placeholder);
+      
+      // Create image element
       const img = document.createElement('img');
-      img.src = value;
-      img.className = 'image-preview';
+      img.className = 'image-preview hidden';
       img.alt = key;
+      
+      // Load image asynchronously
+      const loadImage = () => {
+        return new Promise((resolve, reject) => {
+          img.onload = () => {
+            img.classList.remove('hidden');
+            placeholder.remove();
+            resolve();
+          };
+          img.onerror = () => {
+            imgContainer.innerHTML = '<div class="error-placeholder"><i class="fas fa-image-slash"></i></div>';
+            reject();
+          };
+          img.src = value;
+        });
+      };
+      
+      // Start loading the image
+      loadImage().catch(error => {
+        console.error('Failed to load image:', error);
+      });
       
       const urlText = document.createElement('div');
       urlText.className = 'text-sm text-gray-500 mt-2';
@@ -333,6 +360,41 @@ function showToast(message, isError = false) {
     toast.classList.add('translate-y-full', 'opacity-0');
   }, 3000);
 }
+
+// Add CSS styles for loading and error states
+const style = document.createElement('style');
+style.textContent = `
+  .loading-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    background-color: #f3f4f6;
+    border-radius: 4px;
+    color: #6b7280;
+  }
+  
+  .error-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    background-color: #fee2e2;
+    border-radius: 4px;
+    color: #ef4444;
+  }
+  
+  .image-preview {
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: 4px;
+  }
+  
+  .image-preview.hidden {
+    display: none;
+  }
+`;
+document.head.appendChild(style);
 
 // Initialize the popup
 document.addEventListener('DOMContentLoaded', async () => {
