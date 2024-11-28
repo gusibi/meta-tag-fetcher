@@ -4,65 +4,284 @@
   <title>Meta Tag Fetcher</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="styles/main.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
+    /* Layout */
     body {
       width: 800px;
       min-height: 600px;
-      font-family: 'Inter', sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 16px;
       overflow-x: hidden;
+      box-sizing: border-box;
     }
 
-    /* Ensure popup content doesn't overflow */
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+
     .popup-container {
       max-width: 100%;
-      overflow-x: hidden;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      background: white;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 1.25rem;
+      color: #1f2937;
+    }
+
+    /* Card */
+    .card {
+      background: white;
+      border-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
+      width: 100%;
+    }
+
+    .card-header {
+      padding: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .card-header h3 {
+      margin: 0;
+      font-size: 1rem;
+      color: #1f2937;
+    }
+
+    .card-body {
+      padding: 1rem;
+      overflow-x: auto;
+    }
+
+    .card-footer {
+      padding: 1rem;
+      background: #f8f9fa;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    /* Table */
+    .pure-table {
+      width: 100%;
+      border: none;
+      table-layout: fixed;
+    }
+
+    .pure-table thead {
+      background: #f8f9fa;
+    }
+
+    .pure-table th,
+    .pure-table td {
+      padding: 0.75rem 0.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: pre-wrap;
+      min-width: 0;
+      font-size: 0.875rem;
+    }
+
+    .pure-table th:nth-child(1),
+    .pure-table td:nth-child(1) {
+      width: 30%;
+    }
+
+    .pure-table th:nth-child(2),
+    .pure-table td:nth-child(2) {
+      width: 55%;
+    }
+
+    .pure-table th:nth-child(3),
+    .pure-table td:nth-child(3) {
+      width: 15%;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .pure-table tbody tr:hover {
+      background-color: #f8f9fa;
+    }
+
+    /* JSON View */
+    .json-view pre {
+      margin: 0;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-family: monospace;
+      font-size: 0.875rem;
+      color: #1f2937;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    /* Buttons */
+    .button-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .pure-button {
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+    }
+
+    .pure-button-primary {
+      background-color: #1b73e8;
+    }
+
+    .button-icon {
+      padding: 0.5rem;
+      color: #6b7280;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .button-icon:hover {
+      color: #1b73e8;
+    }
+
+    .button-icon + .button-icon {
+      margin-left: 0.25rem;
+    }
+
+    /* Image Preview */
+    .image-preview-container {
+      max-width: 100%;
+      margin: 0.5rem 0;
+    }
+
+    .image-preview {
+      max-width: 200px;
+      max-height: 100px;
+      object-fit: contain;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
+
+    .image-url {
+      font-size: 0.875rem;
+      color: #6b7280;
+      word-break: break-all;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 24px;
+      background: #323232;
+      color: white;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.hidden {
+      transform: translateY(100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Loading State */
+    .loading-placeholder {
+      background: #f8f9fa;
+      border-radius: 4px;
+      padding: 1rem;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.6; }
+      50% { opacity: 0.8; }
+      100% { opacity: 0.6; }
+    }
+
+    .hidden {
+      display: none;
     }
   </style>
 </head>
-<body class="bg-gray-50">
+<body>
   <div class="popup-container">
-    <header class="sticky top-0 card card-header">
-      <div class="flex justify-between items-center">
-        <h1 class="text-xl font-semibold text-gray-900">Meta Tag Fetcher</h1>
-        <div class="flex space-x-3">
-          <button id="backBtn" class="hidden btn-icon" title="Back to table view">
+    <header class="header">
+      <div class="header-content">
+        <h1>Meta Tag Fetcher</h1>
+        <div class="button-group">
+          <button id="backBtn" class="button-icon hidden" title="Back to table view">
             <i class="fas fa-arrow-left"></i>
           </button>
-          <button id="historyBtn" class="btn-icon" title="View History">
+          <button id="historyBtn" class="button-icon" title="View History">
             <i class="fas fa-history"></i>
           </button>
-          <button id="toggleViewBtn" class="btn-icon" title="Toggle JSON view">
+          <button id="toggleViewBtn" class="button-icon" title="Toggle JSON view">
             <i class="fas fa-code"></i>
           </button>
-          <button id="settingsBtn" class="btn-icon" title="Settings">
+          <button id="settingsBtn" class="button-icon" title="Settings">
             <i class="fas fa-cog"></i>
           </button>
         </div>
       </div>
     </header>
 
-    <main class="space-y-6 mt-4 p-4">
+    <main>
       <!-- Table View -->
       <div id="metaContainer">
         <!-- Meta sections will be dynamically inserted here -->
         <template id="sectionTemplate">
           <div class="card">
-            <div class="card-header border-b border-gray-200">
-              <h3 class="text-base font-semibold leading-6 text-gray-900"></h3>
+            <div class="card-header">
+              <h3></h3>
             </div>
             <div class="card-body">
-              <table class="table">
+              <table class="pure-table">
                 <thead>
                   <tr>
-                    <th scope="col">Key</th>
-                    <th scope="col">Value</th>
-                    <th scope="col">Actions</th>
+                    <th>Key</th>
+                    <th>Value</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200">
+                <tbody>
                 </tbody>
               </table>
             </div>
@@ -73,12 +292,12 @@
       <!-- JSON View -->
       <div id="jsonView" class="hidden">
         <div class="card">
-          <div class="card-body px-4 py-5 sm:p-6">
-            <pre class="text-sm text-gray-800 whitespace-pre-wrap break-words"></pre>
+          <div class="card-body json-view">
+            <pre></pre>
           </div>
-          <div class="card-footer bg-gray-50 px-4 py-3 sm:px-6 flex justify-end">
-            <button id="copyJsonBtn" class="btn btn-secondary">
-              <i class="fas fa-copy mr-2"></i>
+          <div class="card-footer">
+            <button id="copyJsonBtn" class="pure-button pure-button-primary">
+              <i class="fas fa-copy" style="margin-right: 0.5rem;"></i>
               Copy JSON
             </button>
           </div>
@@ -87,11 +306,9 @@
     </main>
 
     <!-- Toast Notification -->
-    <div id="toast" class="toast fixed bottom-4 right-4 transform translate-y-full opacity-0 transition-all duration-300">
-      <div class="max-w-xs bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2">
-        <span id="toastIcon"></span>
-        <span id="toastMessage" class="text-sm"></span>
-      </div>
+    <div id="toast" class="toast hidden">
+      <span id="toastIcon"></span>
+      <span id="toastMessage"></span>
     </div>
   </div>
   <script src="popup.js"></script>

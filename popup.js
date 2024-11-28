@@ -203,21 +203,64 @@ function createMetaTable(category, data) {
     
     // Actions cell
     const actionsCell = document.createElement('td');
-    actionsCell.className = 'text-right text-sm font-medium';
+    actionsCell.className = 'text-right';
     
-    const copyButton = document.createElement('button');
-    copyButton.className = 'btn-icon';
-    copyButton.innerHTML = '<i class="fas fa-copy"></i>';
-    copyButton.title = 'Copy value';
-    copyButton.onclick = () => copyToClipboard(value, key);
-    
-    actionsCell.appendChild(copyButton);
-    
-    // Add cells to row
+    // Create copy button
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'button-icon';
+    copyBtn.title = 'Copy value';
+    copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+    copyBtn.onclick = () => copyToClipboard(value, key);
+
+    // Add copy button to actions cell
+    actionsCell.appendChild(copyBtn);
+
+    // If the value is an image URL, add download button
+    if (value.startsWith('data:image') || /\.(jpg|jpeg|png|gif|ico)$/i.test(value)) {
+      // Create download button
+      const downloadBtn = document.createElement('button');
+      downloadBtn.className = 'button-icon';
+      downloadBtn.title = 'Download image';
+      downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
+      downloadBtn.onclick = async () => {
+        try {
+          // For data URLs, we can download directly
+          if (value.startsWith('data:image')) {
+            const link = document.createElement('a');
+            link.href = value;
+            link.download = `${key || 'image'}.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          } else {
+            // For regular URLs, fetch first to handle CORS
+            const response = await fetch(value);
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            // Extract filename from URL or use key
+            const filename = value.split('/').pop().split('?')[0] || `${key || 'image'}.png`;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+          }
+          showToast('Image downloaded successfully');
+        } catch (error) {
+          console.error('Failed to download image:', error);
+          showToast('Failed to download image', true);
+        }
+      };
+
+      // Add download button to actions cell
+      actionsCell.appendChild(downloadBtn);
+    }
+
     tr.appendChild(keyCell);
     tr.appendChild(valueCell);
     tr.appendChild(actionsCell);
-    
     tbody.appendChild(tr);
   });
   
@@ -379,24 +422,17 @@ function showToast(message, isError = false) {
   const toastMessage = document.getElementById('toastMessage');
   const toastIcon = document.getElementById('toastIcon');
   
-  // Clear any existing timeouts
-  if (toast.hideTimeout) {
-    clearTimeout(toast.hideTimeout);
-  }
-  
   toastMessage.textContent = message;
   toastIcon.innerHTML = isError 
-    ? '<i class="fas fa-circle-xmark text-red-500 mr-2"></i>'
-    : '<i class="fas fa-circle-check text-green-500 mr-2"></i>';
+    ? '<i class="fas fa-circle-xmark" style="color: #dc3545;"></i>'
+    : '<i class="fas fa-circle-check" style="color: #28a745;"></i>';
   
-  // Remove hide classes and add show class
-  toast.classList.remove('translate-y-full', 'opacity-0');
-  toast.classList.add('show');
+  // Show toast
+  toast.classList.remove('hidden');
   
-  // Set timeout to hide toast
-  toast.hideTimeout = setTimeout(() => {
-    toast.classList.remove('show');
-    toast.classList.add('translate-y-full', 'opacity-0');
+  // Hide toast after 3 seconds
+  setTimeout(() => {
+    toast.classList.add('hidden');
   }, 3000);
 }
 
