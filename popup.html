@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Meta Tag Fetcher</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="styles/main.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      width: 800px;
+      min-height: 600px;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Ensure popup content doesn't overflow */
+    .popup-container {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <div class="popup-container">
+    <header class="sticky top-0 card card-header">
+      <div class="flex justify-between items-center">
+        <h1 class="text-xl font-semibold text-gray-900">Meta Tag Fetcher</h1>
+        <div class="flex space-x-3">
+          <button id="backBtn" class="hidden btn-icon" title="Back to table view">
+            <i class="fas fa-arrow-left"></i>
+          </button>
+          <button id="toggleViewBtn" class="btn-icon" title="Toggle JSON view">
+            <i class="fas fa-code"></i>
+          </button>
+          <button id="settingsBtn" class="btn-icon" title="Settings">
+            <i class="fas fa-cog"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="space-y-6 mt-4 p-4">
+      <!-- Table View -->
+      <div id="metaContainer">
+        <!-- Meta sections will be dynamically inserted here -->
+        <template id="sectionTemplate">
+          <div class="card">
+            <div class="card-header border-b border-gray-200">
+              <h3 class="text-base font-semibold leading-6 text-gray-900"></h3>
+            </div>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Key</th>
+                    <th scope="col">Value</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <!-- JSON View -->
+      <div id="jsonView" class="hidden">
+        <div class="card">
+          <div class="card-body px-4 py-5 sm:p-6">
+            <pre class="text-sm text-gray-800 whitespace-pre-wrap break-words"></pre>
+          </div>
+          <div class="card-footer bg-gray-50 px-4 py-3 sm:px-6 flex justify-end">
+            <button id="copyJsonBtn" class="btn btn-secondary">
+              <i class="fas fa-copy mr-2"></i>
+              Copy JSON
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast fixed bottom-4 right-4 transform translate-y-full opacity-0 transition-all duration-300">
+      <div class="max-w-xs bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2">
+        <span id="toastIcon"></span>
+        <span id="toastMessage" class="text-sm"></span>
+      </div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

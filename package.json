@@ -1,0 +1,12 @@
+{
+  "name": "meta-tag-fetcher",
+  "version": "1.0.0",
+  "description": "Browser extension for extracting and managing webpage metadata",
+  "scripts": {
+    "build": "tailwindcss -i ./style.css -o ./dist/style.css",
+    "watch": "tailwindcss -i ./style.css -o ./dist/style.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.3"
+  }
+}
