@@ -77,20 +77,17 @@ function showToast(message, isError = false) {
   const toastMessage = document.getElementById('toastMessage');
   const toastIcon = document.getElementById('toastIcon');
   
-  // Clear any existing timeouts
-  if (toast.hideTimeout) {
-    clearTimeout(toast.hideTimeout);
-  }
-  
   toastMessage.textContent = message;
   toastIcon.innerHTML = isError 
-    ? '<i class="fas fa-circle-xmark text-red-500"></i>'
-    : '<i class="fas fa-circle-check text-green-500"></i>';
+    ? '<i class="fas fa-circle-xmark" style="color: #dc3545;"></i>'
+    : '<i class="fas fa-circle-check" style="color: #28a745;"></i>';
   
-  toast.classList.remove('translate-y-full', 'opacity-0');
+  // Show toast
+  toast.classList.remove('hidden');
   
-  toast.hideTimeout = setTimeout(() => {
-    toast.classList.add('translate-y-full', 'opacity-0');
+  // Hide toast after 3 seconds
+  setTimeout(() => {
+    toast.classList.add('hidden');
   }, 3000);
 }
 
@@ -137,7 +134,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   saveBtn.onclick = async () => {
     const mappings = validateMappings();
     if (mappings) {
-      await saveFieldMappings(mappings);
+      saveFieldMappings(mappings);
     }
   };
   
