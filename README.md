@@ -2,7 +2,7 @@
 
 A powerful Chrome extension for extracting, managing, and customizing meta tags from web pages. Built with modern web technologies and designed with user experience in mind.
 
-![Meta Tag Fetcher Banner](assets/banner.png)
+![Meta Tag Fetcher Banner](image-1.png)
 
 ## 🌟 Features
 

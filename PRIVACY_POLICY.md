@@ -1,6 +1,6 @@
 # Privacy Policy for Meta Tag Fetcher
 
-*Last updated: December 2023*
+*Last updated: November 2024*
 
 ## Introduction
 
@@ -67,7 +67,7 @@ We may update this Privacy Policy from time to time. We will notify you of any c
 
 If you have any questions about this Privacy Policy, please:
 - Contact us at: hi@onlinestool.com
-- Visit our documentation: https://onlinestool.com/wiki/meta-tag-fetcher
+- Visit our documentation: https://onlinestool.com/meta-tag-fetcher
 
 ## Compliance
 
