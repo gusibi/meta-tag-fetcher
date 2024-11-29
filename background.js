@@ -1,6 +1,6 @@
-// Background service worker for Meta Tag Fetcher Pro
+// Background service worker for Meta Tag Fetcher
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('Meta Tag Fetcher Pro installed');
+  console.log('Meta Tag Fetcher installed');
 });
 
 // Listen for messages from other parts of the extension

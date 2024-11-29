@@ -1,10 +1,10 @@
-# Privacy Policy for Meta Tag Fetcher Pro
+# Privacy Policy for Meta Tag Fetcher
 
 *Last updated: December 2023*
 
 ## Introduction
 
-Meta Tag Fetcher Pro ("we", "our", or "the extension") is committed to protecting your privacy. This Privacy Policy explains how we handle information when you use our Chrome extension.
+Meta Tag Fetcher ("we", "our", or "the extension") is committed to protecting your privacy. This Privacy Policy explains how we handle information when you use our Chrome extension.
 
 ## Information Collection
 
@@ -86,4 +86,4 @@ Our commitment to privacy and transparency means:
 
 ---
 
-By using Meta Tag Fetcher Pro, you agree to this Privacy Policy.
+By using Meta Tag Fetcher, you agree to this Privacy Policy.

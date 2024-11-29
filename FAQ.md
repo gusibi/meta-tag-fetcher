@@ -2,11 +2,11 @@
 
 ## General Questions
 
-### What is Meta Tag Fetcher Pro?
-Meta Tag Fetcher Pro is a Chrome extension that helps you extract, manage, and customize meta tags from web pages. It's designed for developers, SEO specialists, and content managers who need quick access to page metadata.
+### What is Meta Tag Fetcher 
+Meta Tag Fetcher is a Chrome extension that helps you extract, manage, and customize meta tags from web pages. It's designed for developers, SEO specialists, and content managers who need quick access to page metadata.
 
 ### Is it free to use?
-Yes, Meta Tag Fetcher Pro is completely free to use and open source.
+Yes, Meta Tag Fetcher is completely free to use and open source.
 
 ### Which browsers are supported?
 Currently, the extension supports Google Chrome and other Chromium-based browsers (version 88 or higher).
@@ -34,7 +34,7 @@ Yes, you can use `Ctrl+Shift+M` (Windows/Linux) or `Command+Shift+M` (Mac) to op
 ## Data & Privacy
 
 ### Does the extension collect my data?
-No, Meta Tag Fetcher Pro does not collect any personal data. All processing happens locally on your device.
+No, Meta Tag Fetcher does not collect any personal data. All processing happens locally on your device.
 
 ### Where are my settings stored?
 Your settings (like field mappings) are stored locally in your browser using Chrome's storage API.

@@ -40,7 +40,7 @@ Short Description:
 A powerful meta tag management tool for developers, SEO specialists, and content managers.
 
 Full Description:
-Meta Tag Fetcher Pro is a comprehensive tool for extracting, managing, and customizing meta tags from web pages. Perfect for developers, SEO specialists, and content managers who need quick access to page metadata.
+Meta Tag Fetcher is a comprehensive tool for extracting, managing, and customizing meta tags from web pages. Perfect for developers, SEO specialists, and content managers who need quick access to page metadata.
 
 Key Features:
 ✨ Real-time Meta Tag Extraction
@@ -78,7 +78,7 @@ Privacy & Security:
 • No external API calls
 • Open source code
 
-Get Meta Tag Fetcher Pro today and streamline your meta tag management workflow!
+Get Meta Tag Fetcher today and streamline your meta tag management workflow!
 ```
 
 ## 4. Technical Requirements

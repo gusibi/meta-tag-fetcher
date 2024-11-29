@@ -241,75 +241,82 @@
     }
   </style>
 </head>
-<body>
-  <div class="popup-container">
-    <header class="header">
-      <div class="header-content">
-        <h1>Meta Tag Fetcher</h1>
-        <div class="button-group">
-          <button id="backBtn" class="button-icon hidden" title="Back to table view">
-            <i class="fas fa-arrow-left"></i>
-          </button>
-          <button id="historyBtn" class="button-icon" title="View History">
-            <i class="fas fa-history"></i>
-          </button>
-          <button id="toggleViewBtn" class="button-icon" title="Toggle JSON view">
-            <i class="fas fa-code"></i>
-          </button>
-          <button id="settingsBtn" class="button-icon" title="Settings">
-            <i class="fas fa-cog"></i>
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <main>
-      <!-- Table View -->
-      <div id="metaContainer">
-        <!-- Meta sections will be dynamically inserted here -->
-        <template id="sectionTemplate">
-          <div class="card">
-            <div class="card-header">
-              <h3></h3>
-            </div>
-            <div class="card-body">
-              <table class="pure-table">
-                <thead>
-                  <tr>
-                    <th>Key</th>
-                    <th>Value</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </template>
-      </div>
-
-      <!-- JSON View -->
-      <div id="jsonView" class="hidden">
-        <div class="card">
-          <div class="card-body json-view">
-            <pre></pre>
-          </div>
-          <div class="card-footer">
-            <button id="copyJsonBtn" class="pure-button pure-button-primary">
-              <i class="fas fa-copy" style="margin-right: 0.5rem;"></i>
-              Copy JSON
+<body style="width: 600px; overflow-x: hidden;">
+  <div class="popup-container pure-g">
+    <div class="pure-u-1">
+      <header class="header">
+        <div class="header-content">
+          <h1>Meta Tag Fetcher</h1>
+          <div class="button-group">
+            <button id="backBtn" class="button-icon hidden" title="Back to table view">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <button id="historyBtn" class="button-icon" title="View History">
+              <i class="fas fa-history"></i>
+            </button>
+            <button id="toggleViewBtn" class="button-icon" title="Toggle JSON view">
+              <i class="fas fa-code"></i>
+            </button>
+            <button id="settingsBtn" class="button-icon" title="Settings">
+              <i class="fas fa-cog"></i>
             </button>
           </div>
         </div>
-      </div>
-    </main>
+      </header>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast hidden">
-      <span id="toastIcon"></span>
-      <span id="toastMessage"></span>
+      <main class="pure-u-1">
+        <!-- Table View -->
+        <div id="metaContainer">
+          <!-- Meta sections will be dynamically inserted here -->
+          <template id="sectionTemplate">
+            <div class="card">
+              <div class="card-header">
+                <h3></h3>
+              </div>
+              <div class="card-body">
+                <table class="pure-table pure-table-bordered">
+                  <colgroup>
+                    <col style="width: 25%"> <!-- 名称列 -->
+                    <col style="width: 60%"> <!-- 值列 -->
+                    <col style="width: 15%"> <!-- 操作列 -->
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th>Key</th>
+                      <th>Value</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </template>
+        </div>
+
+        <!-- JSON View -->
+        <div id="jsonView" class="hidden">
+          <div class="card">
+            <div class="card-body json-view">
+              <pre></pre>
+            </div>
+            <div class="card-footer">
+              <button id="copyJsonBtn" class="pure-button pure-button-primary">
+                <i class="fas fa-copy" style="margin-right: 0.5rem;"></i>
+                Copy JSON
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast hidden">
+    <span id="toastIcon"></span>
+    <span id="toastMessage"></span>
   </div>
   <script src="popup.js"></script>
 </body>
