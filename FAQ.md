@@ -65,7 +65,7 @@ This usually means:
 ## Support & Updates
 
 ### How do I report issues?
-Visit our [GitHub Issues page](https://github.com/zongxiaocheng/meta-tag-fetcher/issues) to:
+Visit our [GitHub Issues page](https://github.com/gusibi/meta-tag-fetcher/issues) to:
 1. Report bugs
 2. Request features
 3. Get help with problems
@@ -78,7 +78,7 @@ We release updates regularly to:
 - Enhance security
 
 ### Can I contribute to the project?
-Yes! We welcome contributions. Visit our [GitHub repository](https://github.com/zongxiaocheng/meta-tag-fetcher) to:
+Yes! We welcome contributions. Visit our [GitHub repository](https://github.com/gusibi/meta-tag-fetcher) to:
 1. Fork the project
 2. Submit pull requests
 3. Suggest improvements
